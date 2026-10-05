@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="evergreen" data-font="serif">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evergreen &amp; Gold · Christmas Budget Planner (Free Demo)</title>
+<style>
+/* ============ EVERGREEN & GOLD IDENTITY · THEMES ============ */
+:root{
+  --r-sm:10px; --r-md:16px; --r-lg:22px;
+  --shadow-1:0 1px 2px rgba(30,61,47,.07);
+  --shadow-2:0 1px 2px rgba(30,61,47,.06),0 10px 28px -8px rgba(30,61,47,.14);
+  --shadow-3:0 2px 6px rgba(30,61,47,.09),0 18px 44px -12px rgba(30,61,47,.22);
+  --topbar-h:64px;
+}
+/* Evergreen & Gold — light default */
+[data-theme="evergreen"]{
+  --bg:#FAF7EF; --bg-soft:#F3ECDC; --card:#FFFFFF; --card-soft:#FDFBF5;
+  --ink:#1E3D2F; --ink-soft:#5A6E60; --ink-faint:#93A196;
+  --line:#E2D7BE; --line-soft:#EDE4CF;
+  --accent:#1E5B3C; --accent-deep:#143E29; --accent-soft:#DDEBD9; --accent-ghost:#EEF4EB;
+  --gold:#B98A1F; --gold-deep:#8F6A15; --gold-soft:#F7ECD2; --gold-ghost:#FCF6E7;
+  --good:#4E8F5E; --good-soft:#DCEEDD; --warn:#BE8A2C; --warn-soft:#F7ECD2; --bad:#C05B5B; --bad-soft:#F7DEDE;
+  --input-bg:#FDFBF5; --shadow-color:30,61,47;
+}
+/* Burgundy Velvet — light */
+[data-theme="burgundy"]{
+  --bg:#FBF5F2; --bg-soft:#F5E7E2; --card:#FFFFFF; --card-soft:#FDF9F7;
+  --ink:#4A1F24; --ink-soft:#7D565B; --ink-faint:#A88F8F;
+  --line:#E8D2CB; --line-soft:#F1DFD9;
+  --accent:#7A2430; --accent-deep:#5C1A24; --accent-soft:#F2D9DC; --accent-ghost:#F9EBEC;
+  --gold:#B98A1F; --gold-deep:#8F6A15; --gold-soft:#F7ECD2; --gold-ghost:#FCF6E7;
+  --good:#4E8F5E; --good-soft:#DCEEDD; --warn:#BE8A2C; --warn-soft:#F7ECD2; --bad:#C05B5B; --bad-soft:#F7DEDE;
+  --input-bg:#FDF9F7; --shadow-color:74,31,36;
+}
+/* Arctic Silver — light cool */
+[data-theme="arctic"]{
+  --bg:#F4F7FA; --bg-soft:#E7EDF3; --card:#FFFFFF; --card-soft:#F8FBFD;
+  --ink:#22303E; --ink-soft:#5A6E80; --ink-faint:#93A3B3;
+  --line:#D5DEE8; --line-soft:#E3EAF1;
+  --accent:#2F5D7C; --accent-deep:#20455E; --accent-soft:#D9E7F1; --accent-ghost:#EBF2F8;
+  --gold:#A8842C; --gold-deep:#7E6420; --gold-soft:#F3E8CC; --gold-ghost:#FAF4E2;
+  --good:#4E8F5E; --good-soft:#DCEEDD; --warn:#BE8A2C; --warn-soft:#F7ECD2; --bad:#C05B5B; --bad-soft:#F7DEDE;
+  --input-bg:#F8FBFD; --shadow-color:34,48,62;
+}
+/* Starlit Night — dark */
+[data-theme="starlit"]{
+  --bg:#101820; --bg-soft:#16202B; --card:#1B2634; --card-soft:#212E3E;
+  --ink:#F0E9D8; --ink-soft:#B9AE97; --ink-faint:#7E7666;
+  --line:#2C3A4B; --line-soft:#24303E;
+  --accent:#7FB98A; --accent-deep:#A3D4AE; --accent-soft:#233B2D; --accent-ghost:#1C3025;
+  --gold:#D4A94E; --gold-deep:#E5BE6B; --gold-soft:#4A3A1C; --gold-ghost:#3A2E16;
+  --good:#8FC79B; --good-soft:#2C4633; --warn:#D9A94F; --warn-soft:#4A3A1E; --bad:#DE8484; --bad-soft:#4E2A2A;
+  --input-bg:#16202B; --shadow-color:0,0,0;
+}
+/* ============ FONTS ============ */
+[data-font="serif"]{ --font-body:Georgia,'Times New Roman',serif; --font-display:Georgia,'Times New Roman',serif; }
+[data-font="sans"]{ --font-body:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; --font-display:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; }
+[data-font="elegant"]{ --font-body:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif; }
+/* ============ BASE ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body); background:var(--bg); color:var(--ink);
+  min-height:100vh; transition:background .35s ease,color .35s ease;
+  padding-top:var(--topbar-h);
+}
+::selection{background:var(--gold-soft)}
+h1,h2,h3,.display{font-family:var(--font-display);letter-spacing:-.01em}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:15px;color:var(--ink);background:var(--input-bg);
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;width:100%;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+label{font-size:13px;font-weight:600;color:var(--ink-soft);display:block;margin:0 0 6px}
+/* ============ TOPBAR ============ */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--topbar-h);z-index:100;
+  display:flex;align-items:center;gap:14px;padding:0 20px;
+  background:color-mix(in srgb,var(--card) 88%,transparent);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand-mark{width:38px;height:38px;border-radius:12px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;font-size:19px;
+  box-shadow:var(--shadow-2)}
+.brand-name{font-family:var(--font-display);font-weight:700;font-size:17px;white-space:nowrap}
+.brand-name small{display:block;font-family:var(--font-body);font-weight:400;font-size:11px;color:var(--ink-faint);letter-spacing:.14em;text-transform:uppercase}
+.topbar-spacer{flex:1}
+.theme-dots{display:flex;gap:8px;align-items:center}
+.theme-dot{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;position:relative;transition:transform .18s}
+.theme-dot:hover{transform:scale(1.12)}
+.theme-dot.active{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-soft)}
+.theme-dot[data-set-theme="evergreen"]{background:linear-gradient(135deg,#1E5B3C 50%,#B98A1F 50%)}
+.theme-dot[data-set-theme="burgundy"]{background:linear-gradient(135deg,#7A2430 50%,#B98A1F 50%)}
+.theme-dot[data-set-theme="arctic"]{background:linear-gradient(135deg,#2F5D7C 50%,#DCE8F2 50%)}
+.theme-dot[data-set-theme="starlit"]{background:linear-gradient(135deg,#101820 50%,#D4A94E 50%)}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--card);
+  display:grid;place-items:center;font-size:17px;color:var(--ink-soft);transition:all .2s}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold-deep);transform:translateY(-1px)}
+.font-picker{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.font-picker button{border:none;background:transparent;padding:8px 11px;font-size:14px;color:var(--ink-faint)}
+.font-picker button.active{background:var(--gold-soft);color:var(--gold-deep)}
+.font-picker button[data-set-font="serif"]{font-family:Georgia,serif}
+.font-picker button[data-set-font="sans"]{font-family:-apple-system,sans-serif}
+.font-picker button[data-set-font="elegant"]{font-family:'Palatino Linotype',serif;font-style:italic}
+/* ============ NAV TABS ============ */
+.navtabs{position:sticky;top:var(--topbar-h);z-index:90;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft);
+  display:flex;gap:4px;padding:10px 20px;overflow-x:auto}
+.navtab{border:none;background:transparent;padding:10px 16px;border-radius:var(--r-sm);font-size:14.5px;font-weight:600;
+  color:var(--ink-soft);white-space:nowrap;transition:all .2s;border-bottom:2px solid transparent}
+.navtab:hover{color:var(--ink);background:var(--card-soft)}
+.navtab.active{color:var(--accent-deep);background:var(--accent-soft);border-bottom-color:var(--gold)}
+[data-theme="starlit"] .navtab.active{color:var(--accent-deep)}
+/* ============ LAYOUT ============ */
+.wrap{max-width:1120px;margin:0 auto;padding:26px 20px 90px}
+.view{display:none;animation:fadeUp .4s ease}
+.view.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:8px}
+.h-title{font-size:clamp(26px,4vw,38px);font-weight:700;margin-bottom:6px}
+.h-sub{color:var(--ink-soft);font-size:15.5px;margin-bottom:22px;max-width:640px}
+.grid{display:grid;gap:16px}
+.grid.kpi{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.grid.two{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r-md);
+  padding:20px;box-shadow:var(--shadow-1);transition:box-shadow .25s,transform .25s}
+.card:hover{box-shadow:var(--shadow-2)}
+.card.gold-accent{border-top:3px solid var(--gold)}
+.kpi-num{font-family:var(--font-display);font-size:32px;font-weight:700;margin:4px 0}
+.kpi-label{font-size:12.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.kpi-delta{font-size:13px;margin-top:6px;font-weight:600}
+.up{color:var(--good)} .down{color:var(--bad)} .warn-t{color:var(--warn)}
+.progress{height:10px;border-radius:99px;background:var(--bg-soft);overflow:hidden;margin-top:10px}
+.progress > i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold-deep));transition:width .6s ease}
+.progress.green > i{background:linear-gradient(90deg,var(--accent),var(--accent-deep))}
+/* bars for budget vs actual */
+.bar-row{display:grid;grid-template-columns:150px 1fr 110px;gap:10px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line-soft);font-size:14px}
+.bar-row:last-child{border-bottom:none}
+.bar-track{height:12px;border-radius:99px;background:var(--bg-soft);position:relative;overflow:hidden}
+.bar-fill{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-deep))}
+.bar-marker{position:absolute;top:-2px;bottom:-2px;width:3px;background:var(--gold-deep);border-radius:2px}
+.bar-amt{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+/* lists */
+.list-item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--line-soft)}
+.list-item:last-child{border-bottom:none}
+.avatar{width:42px;height:42px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--gold-deep));font-size:16px}
+.pill{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.pill.bought{background:var(--good-soft);color:var(--good)}
+.pill.pending{background:var(--warn-soft);color:var(--warn)}
+.pill.over{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--accent-soft);color:var(--accent-deep)}
+.pill.gold{background:var(--gold-soft);color:var(--gold-deep)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--r-sm);
+  padding:11px 18px;font-size:14.5px;font-weight:700;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:#fff;box-shadow:var(--shadow-2)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-3)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff;box-shadow:var(--shadow-2)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:var(--shadow-3)}
+.btn-ghost{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--gold)}
+.btn-danger{background:var(--bad-soft);color:var(--bad)}
+.btn-sm{padding:7px 12px;font-size:13px}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.checkbox{width:22px;height:22px;accent-color:var(--accent);flex:none;cursor:pointer}
+/* modal */
+.modal-back{position:fixed;inset:0;background:rgba(20,15,10,.5);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  z-index:200;display:none;align-items:center;justify-content:center;padding:18px}
+.modal-back.open{display:flex}
+.modal{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-3);
+  width:100%;max-width:520px;max-height:90vh;overflow:auto;padding:26px;animation:fadeUp .3s ease}
+.modal h3{font-size:21px;margin-bottom:4px}
+.modal .m-sub{color:var(--ink-soft);font-size:14px;margin-bottom:18px}
+.field{margin-bottom:14px}
+.modal .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* toast */
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;z-index:300;
+  background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:99px;font-size:14px;font-weight:600;
+  transition:all .3s;pointer-events:none;box-shadow:var(--shadow-3);max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+/* tip box */
+.tip{background:var(--gold-ghost);border:1px solid var(--gold-soft);border-left:4px solid var(--gold);
+  border-radius:var(--r-sm);padding:14px 16px;font-size:14px;color:var(--ink);margin-top:14px}
+.tip strong{color:var(--gold-deep)}
+.countdown{display:flex;gap:12px;margin:16px 0}
+.cd-cell{background:var(--card);border:1px solid var(--line-soft);border-radius:var(--r-md);padding:12px 6px;
+  text-align:center;min-width:74px;box-shadow:var(--shadow-1)}
+.cd-num{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--accent-deep)}
+[data-theme="starlit"] .cd-num{color:var(--gold)}
+.cd-lab{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-faint);margin-top:2px}
+.empty{text-align:center;color:var(--ink-faint);padding:26px 10px;font-size:14.5px}
+select.chip{background:var(--card-soft)}
+@media(max-width:640px){
+  .bar-row{grid-template-columns:110px 1fr 90px}
+  .brand-name small{display:none}
+  .font-picker{display:none}
+  .modal .row2{grid-template-columns:1fr}
+  .countdown{flex-wrap:wrap}
+}
+@media print{.topbar,.navtabs,.row-actions,.no-print{display:none!important}body{padding-top:0}}
+</style>
+</head>
+<body>
+
+<!-- ===== LEDGERLOOPSTUDIO DEMO BAR ===== -->
+<div id="lls-demo-bar" style="position:fixed;top:0;left:0;right:0;z-index:999999;background:#1E5B3C;color:#FFFFFF;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;text-align:center;padding:9px 12px;box-shadow:0 2px 12px rgba(0,0,0,.18);line-height:1.4;">
+  <span style="margin-right:6px;">&#127876;</span> FREE DEMO &mdash; LedgerLoopStudio
+  <span style="opacity:.65;font-weight:400;margin:0 8px;">|</span>
+  <a href="https://www.etsy.com/shop/LedgerLoopStudio" target="_blank" rel="noopener" style="color:#FFFFFF;text-decoration:underline;text-underline-offset:2px;font-weight:700;">Get the full version on Etsy</a>
+  <span style="opacity:.65;font-weight:400;margin-left:8px;">(10 entries max in demo)</span>
+</div>
+<script>
+(function(){
+  // Push body content below the demo bar so nothing is hidden
+  function padBody(){
+    var bar = document.getElementById('lls-demo-bar');
+    if (bar) document.body.style.paddingTop = bar.offsetHeight + 'px';
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', padBody);
+  else padBody();
+  window.addEventListener('resize', padBody);
+  setTimeout(padBody, 500);
+})();
+</script>
+<!-- ===== /DEMO BAR ===== -->
+
+
+<!-- ============ TOPBAR ============ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">🎄</div>
+    <div class="brand-name">Evergreen &amp; Gold<small>Christmas Budget Planner</small></div>
+  </div>
+  <div class="topbar-spacer"></div>
+  <div class="theme-dots" title="Themes">
+    <button class="theme-dot active" data-set-theme="evergreen" title="Evergreen &amp; Gold" aria-label="Evergreen and Gold theme"></button>
+    <button class="theme-dot" data-set-theme="burgundy" title="Burgundy Velvet" aria-label="Burgundy Velvet theme"></button>
+    <button class="theme-dot" data-set-theme="arctic" title="Arctic Silver" aria-label="Arctic Silver theme"></button>
+    <button class="theme-dot" data-set-theme="starlit" title="Starlit Night" aria-label="Starlit Night theme"></button>
+  </div>
+  <div class="font-picker" title="Fonts">
+    <button data-set-font="serif" class="active" title="Serif">Ag</button>
+    <button data-set-font="sans" title="Sans">Ag</button>
+    <button data-set-font="elegant" title="Elegant">Ag</button>
+  </div>
+  <button class="icon-btn" id="darkToggle" title="Toggle dark mode">🌙</button>
+  <button class="icon-btn" id="exportBtn" title="Export backup (JSON)">⤓</button>
+</header>
+
+<!-- ============ NAV ============ -->
+<nav class="navtabs" id="navtabs">
+  <button class="navtab active" data-view="dashboard">🏠 Dashboard</button>
+  <button class="navtab" data-view="gifts">🎁 Gift Budget</button>
+  <button class="navtab" data-view="expenses">🧾 Expenses</button>
+  <button class="navtab" data-view="savings">🐖 Savings Goal</button>
+  <button class="navtab" data-view="compare">📊 Budget vs Actual</button>
+  <button class="navtab" data-view="ideas">💡 Gift Ideas</button>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ DASHBOARD ============ -->
+<section class="view active" id="view-dashboard">
+  <div class="eyebrow">LedgerLoopStudio · Christmas 2026</div>
+  <h1 class="h-title">Your holiday budget, beautifully under control.</h1>
+  <p class="h-sub">Track every gift, decoration and dinner — and actually enjoy the season.</p>
+
+  <div class="countdown" id="countdown"></div>
+
+  <div class="grid kpi" style="margin-bottom:16px">
+    <div class="card gold-accent">
+      <div class="kpi-label">Total Budget</div>
+      <div class="kpi-num" id="kpiBudget">$0</div>
+      <div class="kpi-delta" id="kpiBudgetSub"></div>
+    </div>
+    <div class="card gold-accent">
+      <div class="kpi-label">Spent So Far</div>
+      <div class="kpi-num" id="kpiSpent">$0</div>
+      <div class="kpi-delta" id="kpiSpentSub"></div>
+    </div>
+    <div class="card gold-accent">
+      <div class="kpi-label">Remaining</div>
+      <div class="kpi-num" id="kpiLeft">$0</div>
+      <div class="progress" id="kpiBarWrap"><i id="kpiBar" style="width:0%"></i></div>
+    </div>
+    <div class="card gold-accent">
+      <div class="kpi-label">Gifts Purchased</div>
+      <div class="kpi-num" id="kpiGifts">0/0</div>
+      <div class="kpi-delta" id="kpiGiftsSub"></div>
+    </div>
+  </div>
+
+  <div class="grid two">
+    <div class="card">
+      <h3 style="margin-bottom:12px">🎁 Spending by person</h3>
+      <div id="perPerson"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">💰 Savings goal</h3>
+      <div id="dashSavings"></div>
+      <div class="row-actions no-print">
+        <button class="btn btn-ghost btn-sm" data-goto="savings">Manage savings →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip"><strong>💡 Smart tip:</strong> <span id="smartTip"></span></div>
+
+  <div class="row-actions no-print">
+    <button class="btn btn-ghost btn-sm" id="resetDemo">↺ Reset demo data</button>
+    <button class="btn btn-ghost btn-sm" id="printBtn">🖨 Print summary</button>
+  </div>
+</section>
+
+<!-- ============ GIFT BUDGET ============ -->
+<section class="view" id="view-gifts">
+  <div class="eyebrow">Per-person planning</div>
+  <h1 class="h-title">Gift budget planner</h1>
+  <p class="h-sub">Set a budget for everyone on your list, track gift ideas, and mark purchases as you shop.</p>
+  <div class="grid kpi" style="margin-bottom:16px">
+    <div class="card"><div class="kpi-label">Gift Budget Total</div><div class="kpi-num" id="gBudget">$0</div></div>
+    <div class="card"><div class="kpi-label">Spent on Gifts</div><div class="kpi-num" id="gSpent">$0</div></div>
+    <div class="card"><div class="kpi-label">Still to Buy</div><div class="kpi-num" id="gTodo">0</div></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:10px">
+      <h3>🎁 Everyone on your list</h3>
+      <button class="btn btn-primary btn-sm" id="addPerson">+ Add person</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+      <select id="groupFilter" class="chip" style="width:auto">
+        <option value="">All groups</option>
+        <option>Family</option><option>Friends</option><option>Kids</option>
+        <option>Coworkers</option><option>Neighbors</option><option>Other</option>
+      </select>
+      <select id="statusFilter" class="chip" style="width:auto">
+        <option value="">All statuses</option>
+        <option value="bought">Purchased</option>
+        <option value="todo">Still to buy</option>
+      </select>
+    </div>
+    <div id="peopleList"></div>
+  </div>
+</section>
+
+<!-- ============ EXPENSES ============ -->
+<section class="view" id="view-expenses">
+  <div class="eyebrow">Every dollar, categorized</div>
+  <h1 class="h-title">Holiday expense tracker</h1>
+  <p class="h-sub">Log decorations, food, travel, cards — everything beyond gifts.</p>
+  <div class="grid kpi" style="margin-bottom:16px">
+    <div class="card"><div class="kpi-label">Non-Gift Expenses</div><div class="kpi-num" id="eTotal">$0</div></div>
+    <div class="card"><div class="kpi-label">Biggest Category</div><div class="kpi-num" id="eBig" style="font-size:22px">—</div></div>
+    <div class="card"><div class="kpi-label">Entries</div><div class="kpi-num" id="eCount">0</div></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:10px">
+      <h3>🧾 Expenses</h3>
+      <button class="btn btn-primary btn-sm" id="addExpense">+ Add expense</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+      <select id="catFilter" class="chip" style="width:auto"><option value="">All categories</option></select>
+    </div>
+    <div id="expenseList"></div>
+  </div>
+</section>
+
+<!-- ============ SAVINGS ============ -->
+<section class="view" id="view-savings">
+  <div class="eyebrow">Start early, stress less</div>
+  <h1 class="h-title">Christmas savings goal</h1>
+  <p class="h-sub">Set your target and watch your holiday fund grow month by month.</p>
+  <div class="card" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px">
+      <h3>🐖 <span id="sSaved">$0</span> <span style="color:var(--ink-faint);font-weight:400;font-size:16px">of <span id="sTarget">$0</span></span></h3>
+      <span class="pill gold" id="sPct">0%</span>
+    </div>
+    <div class="progress green" style="height:14px;margin:14px 0"><i id="sBar" style="width:0%"></i></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-ghost btn-sm" id="editGoal">Edit goal</button>
+      <button class="btn btn-primary btn-sm" id="addSaving">+ Add contribution</button>
+    </div>
+    <div class="tip" id="sTip"></div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:8px">Contribution history</h3>
+    <div id="savingList"></div>
+  </div>
+</section>
+
+<!-- ============ BUDGET VS ACTUAL ============ -->
+<section class="view" id="view-compare">
+  <div class="eyebrow">Where the money went</div>
+  <h1 class="h-title">Budget vs actual</h1>
+  <p class="h-sub">Planned budgets against real spending, per category. Gold markers show your budget line.</p>
+  <div class="card" style="margin-bottom:16px">
+    <h3 style="margin-bottom:10px">📊 By category</h3>
+    <div id="compareBars"></div>
+    <div class="row-actions no-print">
+      <button class="btn btn-ghost btn-sm" id="editCatBudgets">Edit category budgets</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-bottom:10px">🎁 Gifts: budget vs actual per person</h3>
+    <div id="comparePeople"></div>
+  </div>
+</section>
+
+<!-- ============ GIFT IDEAS ============ -->
+<section class="view" id="view-ideas">
+  <div class="eyebrow">Never blank on ideas again</div>
+  <h1 class="h-title">Gift idea vault</h1>
+  <p class="h-sub">Brainstorm all year. When December comes, you'll already know exactly what to buy.</p>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:10px">
+      <h3>💡 Ideas</h3>
+      <button class="btn btn-primary btn-sm" id="addIdea">+ Add idea</button>
+    </div>
+    <div id="ideaList"></div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<!-- ============ MODAL ============ -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <h3 id="mTitle">Add</h3>
+    <div class="m-sub" id="mSub"></div>
+    <div id="mFields"></div>
+    <div class="row-actions">
+      <button class="btn btn-primary" id="mSave">Save</button>
+      <button class="btn btn-ghost" id="mCancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= STATE ================= */
+const LS_KEY='xbp_state_v1';
+const CATS=['Gifts','Decorations','Food & Drink','Travel','Cards & Postage','Wrapping','Entertainment','Other'];
+const GROUPS=['Family','Friends','Kids','Coworkers','Neighbors','Other'];
+const DIET_NA=[]; // not needed here
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const uid=()=> 'id'+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
+const money=n=>'$'+Number(n||0).toLocaleString('en-US',{maximumFractionDigits:0});
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function sampleData(){
+  return {
+    settings:{totalBudget:1500, theme:'evergreen', font:'serif',
+      catBudgets:{'Gifts':800,'Decorations':120,'Food & Drink':250,'Travel':150,'Cards & Postage':40,'Wrapping':60,'Entertainment':80,'Other':0}},
+    people:[
+      {id:uid(),name:'Mom',group:'Family',budget:150,giftIdea:'Cashmere scarf',purchased:true,actualCost:139},
+      {id:uid(),name:'Dad',group:'Family',budget:120,giftIdea:'Whiskey decanter set',purchased:true,actualCost:118},
+      {id:uid(),name:'Emma',group:'Kids',budget:200,giftIdea:'LEGO Creator set',purchased:true,actualCost:189},
+      {id:uid(),name:'Liam',group:'Kids',budget:200,giftIdea:'Nintendo game',purchased:false,actualCost:0},
+      {id:uid(),name:'Sarah',group:'Friends',budget:50,giftIdea:'Candle gift set',purchased:false,actualCost:0},
+      {id:uid(),name:'James (office)',group:'Coworkers',budget:25,giftIdea:'Gourmet coffee',purchased:false,actualCost:0},
+      {id:uid(),name:'The Petersons',group:'Neighbors',budget:40,giftIdea:'Holiday cookie tin',purchased:true,actualCost:32}
+    ],
+    expenses:[
+      {id:uid(),desc:'Christmas tree + ornaments',category:'Decorations',amount:95,date:'2026-12-01'},
+      {id:uid(),desc:'Outdoor string lights',category:'Decorations',amount:42,date:'2026-12-02'},
+      {id:uid(),desc:'Turkey + ham (holiday dinner)',category:'Food & Drink',amount:86,date:'2026-12-20'},
+      {id:uid(),desc:'Baking supplies',category:'Food & Drink',amount:34,date:'2026-12-18'},
+      {id:uid(),desc:'Gas — drive to parents',category:'Travel',amount:55,date:'2026-12-23'},
+      {id:uid(),desc:'Christmas cards (20-pack)',category:'Cards & Postage',amount:18,date:'2026-12-05'},
+      {id:uid(),desc:'Postage stamps',category:'Cards & Postage',amount:14,date:'2026-12-08'},
+      {id:uid(),desc:'Wrapping paper + ribbons',category:'Wrapping',amount:27,date:'2026-12-10'}
+    ],
+    savings:{target:1500,saved:1125,contributions:[
+      {id:uid(),amount:150,date:'2026-06-01',note:'June — auto transfer'},
+      {id:uid(),amount:150,date:'2026-07-01',note:'July — auto transfer'},
+      {id:uid(),amount:150,date:'2026-08-01',note:'August — auto transfer'},
+      {id:uid(),amount:175,date:'2026-09-01',note:'September — bonus'},
+      {id:uid(),amount:150,date:'2026-10-01',note:'October — auto transfer'},
+      {id:uid(),amount:150,date:'2026-11-01',note:'November — auto transfer'},
+      {id:uid(),amount:200,date:'2026-12-01',note:'December — final push'}
+    ]},
+    ideas:[
+      {id:uid(),person:'Mom',idea:'Spa day voucher',link:'Local spa — check December deals',estPrice:80,priority:'High',claimed:false},
+      {id:uid(),person:'Liam',idea:'LEGO Technic car',link:'',estPrice:60,priority:'Medium',claimed:false},
+      {id:uid(),person:'Dad',idea:'Grilling tool set',link:'',estPrice:45,priority:'Low',claimed:false},
+      {id:uid(),person:'Sarah',idea:'Personalized photo book',link:'Online printer',estPrice:35,priority:'Medium',claimed:false}
+    ]
+  };
+}
+let S;
+function load(){ try{ const raw=localStorage.getItem(LS_KEY); if(raw){ S=JSON.parse(raw); return; } }catch(e){} S=sampleData(); save(); }
+function save(){ try{ localStorage.setItem(LS_KEY,JSON.stringify(S)); }catch(e){} }
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),2200); }
+
+/* ================= THEME / FONT / DARK ================= */
+const DARK_THEME='starlit', LIGHT_THEME='evergreen';
+function applyPrefs(){
+  document.documentElement.dataset.theme=S.settings.theme;
+  document.documentElement.dataset.font=S.settings.font;
+  $$('.theme-dot').forEach(d=>d.classList.toggle('active',d.dataset.setTheme===S.settings.theme));
+  $$('.font-picker button').forEach(b=>b.classList.toggle('active',b.dataset.setFont===S.settings.font));
+  $('#darkToggle').textContent = S.settings.theme===DARK_THEME ? '☀️' : '🌙';
+}
+$$('.theme-dot').forEach(d=>d.addEventListener('click',()=>{ S.settings.theme=d.dataset.setTheme; save(); applyPrefs(); }));
+$$('.font-picker button').forEach(b=>b.addEventListener('click',()=>{ S.settings.font=b.dataset.setFont; save(); applyPrefs(); }));
+$('#darkToggle').addEventListener('click',()=>{
+  S.settings.theme = (S.settings.theme===DARK_THEME)?LIGHT_THEME:DARK_THEME; save(); applyPrefs();
+});
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-goto]'); if(g){ switchView(g.dataset.goto); window.scrollTo({top:0,behavior:'smooth'}); }
+});
+
+/* ================= NAV ================= */
+function switchView(name){
+  $$('.navtab').forEach(t=>t.classList.toggle('active',t.dataset.view===name));
+  $$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
+  render();
+}
+$$('.navtab').forEach(t=>t.addEventListener('click',()=>switchView(t.dataset.view)));
+
+/* ================= COUNTDOWN ================= */
+function renderCountdown(){
+  const now=new Date(); let xmas=new Date(now.getFullYear(),11,25);
+  if(now>xmas) xmas=new Date(now.getFullYear()+1,11,25);
+  const diff=xmas-now, d=Math.floor(diff/864e5), h=Math.floor(diff/36e5)%24, m=Math.floor(diff/6e4)%60;
+  $('#countdown').innerHTML=[['Days',d],['Hours',h],['Minutes',m]].map(([l,v])=>
+    `<div class="cd-cell"><div class="cd-num">${v}</div><div class="cd-lab">${l} to Christmas</div></div>`).join('');
+}
+
+/* ================= DERIVED ================= */
+const giftSpent=()=>S.people.reduce((a,p)=>a+(p.purchased?(+p.actualCost||0):0),0);
+const giftBudgetTotal=()=>S.people.reduce((a,p)=>a+(+p.budget||0),0);
+const expTotal=()=>S.expenses.reduce((a,e)=>a+(+e.amount||0),0);
+const totalSpent=()=>giftSpent()+expTotal();
+const catSpent=cat=> (cat==='Gifts'? giftSpent() : S.expenses.filter(e=>e.category===cat).reduce((a,e)=>a+(+e.amount||0),0));
+
+const TIPS=[
+  'Set a per-person gift budget BEFORE you start shopping — it cuts overspending by up to 30%.',
+  'Buy wrapping paper and cards in January sales for next year — savings of 50–70%.',
+  'A "one in, one out" decoration rule keeps holiday clutter (and spending) down.',
+  'Homemade gifts — cookie tins, photo books — feel personal and cost a fraction.',
+  'Track prices for big gifts from October; most drop 15–25% on Black Friday.'
+];
+
+/* ================= RENDER: DASHBOARD ================= */
+function renderDashboard(){
+  const B=+S.settings.totalBudget||0, spent=totalSpent(), left=B-spent, pct=B?Math.min(100,spent/B*100):0;
+  $('#kpiBudget').textContent=money(B);
+  $('#kpiSpent').textContent=money(spent);
+  $('#kpiSpentSub').innerHTML=`<span class="${spent>B?'down':'up'}">${pct.toFixed(0)}% of budget used</span>`;
+  $('#kpiLeft').textContent=money(left);
+  $('#kpiLeft').style.color=left<0?'var(--bad)':'';
+  $('#kpiBar').style.width=pct+'%';
+  const bought=S.people.filter(p=>p.purchased).length;
+  $('#kpiGifts').textContent=`${bought}/${S.people.length}`;
+  $('#kpiGiftsSub').textContent=S.people.length-bought+' still to buy';
+  // per person
+  const el=$('#perPerson');
+  if(!S.people.length){ el.innerHTML='<div class="empty">No people yet — add them in Gift Budget.</div>'; }
+  else el.innerHTML=S.people.map(p=>{
+    const sp=p.purchased?+p.actualCost||0:0, b=+p.budget||0, pc=b?Math.min(100,sp/b*100):0;
+    return `<div class="bar-row"><span>${esc(p.name)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pc}%"></div><div class="bar-marker" style="left:100%"></div></div>
+      <span class="bar-amt">${money(sp)} / ${money(b)}</span></div>`;
+  }).join('');
+  // savings mini
+  const sv=S.savings, sp2=sv.target?Math.min(100,sv.saved/sv.target*100):0;
+  $('#dashSavings').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:baseline"><strong style="font-size:20px">${money(sv.saved)}</strong>
+    <span style="color:var(--ink-soft)">of ${money(sv.target)} · ${sp2.toFixed(0)}%</span></div>
+    <div class="progress green" style="margin:10px 0"><i style="width:${sp2}%"></i></div>
+    <div style="font-size:13.5px;color:var(--ink-soft)">${sv.saved>=sv.target?'🎉 Goal reached! Enjoy a stress-free Christmas.':money(sv.target-sv.saved)+' to go — '+(sv.target-sv.saved>0?'about '+money(Math.ceil((sv.target-sv.saved)/2))+'/month for 2 months.':'') }</div>`;
+  $('#smartTip').textContent=TIPS[new Date().getDate()%TIPS.length];
+}
+
+/* ================= RENDER: GIFTS ================= */
+let groupFilter='', statusFilter='';
+function renderGifts(){
+  $('#gBudget').textContent=money(giftBudgetTotal());
+  $('#gSpent').textContent=money(giftSpent());
+  $('#gTodo').textContent=S.people.filter(p=>!p.purchased).length;
+  let list=S.people.filter(p=>(!groupFilter||p.group===groupFilter)&&(!statusFilter||(statusFilter==='bought'?p.purchased:!p.purchased)));
+  $('#peopleList').innerHTML=list.length?list.map(p=>`
+    <div class="list-item">
+      <div class="avatar">${esc(p.name.trim().charAt(0).toUpperCase()||'?')}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700">${esc(p.name)} <span style="color:var(--ink-faint);font-weight:400;font-size:12.5px">· ${esc(p.group)}</span></div>
+        <div style="font-size:13.5px;color:var(--ink-soft)">${p.giftIdea?esc(p.giftIdea):'<i>No idea yet</i>'} · Budget ${money(p.budget)}${p.purchased?' · Paid '+money(p.actualCost):''}</div>
+      </div>
+      <span class="pill ${p.purchased?'bought':'pending'}">${p.purchased?'✓ Bought':'To buy'}</span>
+      <button class="btn btn-ghost btn-sm" data-edit-person="${p.id}">Edit</button>
+      <button class="btn btn-danger btn-sm" data-del-person="${p.id}">✕</button>
+    </div>`).join(''):'<div class="empty">Nobody here — add someone to your list.</div>';
+}
+$('#groupFilter').addEventListener('change',e=>{groupFilter=e.target.value;renderGifts();});
+$('#statusFilter').addEventListener('change',e=>{statusFilter=e.target.value;renderGifts();});
+document.addEventListener('click',e=>{
+  const ep=e.target.closest('[data-edit-person]'); if(ep){ openPersonModal(S.people.find(p=>p.id===ep.dataset.editPerson)); return; }
+  const dp=e.target.closest('[data-del-person]'); if(dp){ if(confirm('Remove this person?')){ S.people=S.people.filter(p=>p.id!==dp.dataset.delPerson); save(); render(); toast('Removed'); } return; }
+});
+
+/* ================= RENDER: EXPENSES ================= */
+let catFilter='';
+function renderExpenses(){
+  $('#eTotal').textContent=money(expTotal());
+  $('#eCount').textContent=S.expenses.length;
+  const byCat={}; S.expenses.forEach(e=>byCat[e.category]=(byCat[e.category]||0)+ +e.amount);
+  const top=Object.entries(byCat).sort((a,b)=>b[1]-a[1])[0];
+  $('#eBig').textContent=top?top[0]:'—';
+  let list=S.expenses.filter(e=>!catFilter||e.category===catFilter).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  $('#expenseList').innerHTML=list.length?list.map(e=>`
+    <div class="list-item">
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:700">${esc(e.desc)}</div>
+        <div style="font-size:13px;color:var(--ink-soft)">${esc(e.category)}${e.date?' · '+esc(e.date):''}</div>
+      </div>
+      <strong>${money(e.amount)}</strong>
+      <button class="btn btn-ghost btn-sm" data-edit-exp="${e.id}">Edit</button>
+      <button class="btn btn-danger btn-sm" data-del-exp="${e.id}">✕</button>
+    </div>`).join(''):'<div class="empty">No expenses yet.</div>';
+}
+$('#catFilter').addEventListener('change',e=>{catFilter=e.target.value;renderExpenses();});
+document.addEventListener('click',e=>{
+  const ee=e.target.closest('[data-edit-exp]'); if(ee){ openExpenseModal(S.expenses.find(x=>x.id===ee.dataset.editExp)); return; }
+  const de=e.target.closest('[data-del-exp]'); if(de){ if(confirm('Delete this expense?')){ S.expenses=S.expenses.filter(x=>x.id!==de.dataset.delExp); save(); render(); toast('Deleted'); } return; }
+});
+
+/* ================= RENDER: SAVINGS ================= */
+function renderSavings(){
+  const sv=S.savings, pct=sv.target?Math.min(100,sv.saved/sv.target*100):0;
+  $('#sSaved').textContent=money(sv.saved); $('#sTarget').textContent=money(sv.target);
+  $('#sPct').textContent=pct.toFixed(0)+'%'; $('#sBar').style.width=pct+'%';
+  const left=sv.target-sv.saved;
+  $('#sTip').innerHTML= left<=0 ? '<strong>🎉 Goal reached!</strong> Your Christmas is fully funded. Enjoy it!' :
+    `<strong>💡 On track?</strong> ${money(left)} to go. Save ${money(Math.ceil(left/2))}/month for the next 2 months to hit your goal by Christmas.`;
+  $('#savingList').innerHTML=sv.contributions.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(c=>`
+    <div class="list-item"><div style="flex:1"><div style="font-weight:700">${money(c.amount)}</div>
+    <div style="font-size:13px;color:var(--ink-soft)">${esc(c.date||'')}${c.note?' · '+esc(c.note):''}</div></div>
+    <button class="btn btn-danger btn-sm" data-del-con="${c.id}">✕</button></div>`).join('')||'<div class="empty">No contributions yet.</div>';
+}
+document.addEventListener('click',e=>{
+  const dc=e.target.closest('[data-del-con]'); if(dc){ const sv=S.savings; const c=sv.contributions.find(x=>x.id===dc.dataset.delCon);
+    if(c&&confirm('Delete this contribution?')){ sv.saved-= +c.amount; sv.contributions=sv.contributions.filter(x=>x.id!==c.id); save(); render(); toast('Deleted'); } }
+});
+
+/* ================= RENDER: COMPARE ================= */
+function renderCompare(){
+  const maxB=Math.max(1,...CATS.map(c=>+S.settings.catBudgets[c]||0),...CATS.map(catSpent));
+  $('#compareBars').innerHTML=CATS.map(c=>{
+    const b=+S.settings.catBudgets[c]||0, s=catSpent(c), pc=maxB?Math.min(100,s/maxB*100):0, mk=maxB?Math.min(100,b/maxB*100):0;
+    return `<div class="bar-row"><span>${esc(c)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pc}%;${s>b&&b>0?'background:linear-gradient(90deg,var(--bad),#A03F3F)':''}"></div>
+      ${b>0?`<div class="bar-marker" title="Budget ${money(b)}" style="left:${mk}%"></div>`:''}</div>
+      <span class="bar-amt ${s>b&&b>0?'down':''}">${money(s)}${b>0?' / '+money(b):''}</span></div>`;
+  }).join('');
+  const maxP=Math.max(1,...S.people.map(p=>Math.max(+p.budget||0,+p.actualCost||0)));
+  $('#comparePeople').innerHTML=S.people.length?S.people.map(p=>{
+    const sp=p.purchased?+p.actualCost||0:0, pc=maxP?sp/maxP*100:0, mk=maxP?(+p.budget||0)/maxP*100:0;
+    return `<div class="bar-row"><span>${esc(p.name)}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${pc}%"></div><div class="bar-marker" style="left:${Math.min(100,mk)}%"></div></div>
+      <span class="bar-amt">${money(sp)} / ${money(p.budget)}</span></div>`;
+  }).join(''):'<div class="empty">Add people in Gift Budget first.</div>';
+}
+
+/* ================= RENDER: IDEAS ================= */
+function renderIdeas(){
+  $('#ideaList').innerHTML=S.ideas.length?S.ideas.map(i=>`
+    <div class="list-item">
+      <input type="checkbox" class="checkbox" data-claim="${i.id}" ${i.claimed?'checked':''} title="Mark as bought/planned">
+      <div style="flex:1;min-width:0;${i.claimed?'opacity:.55;text-decoration:line-through':''}">
+        <div style="font-weight:700">${esc(i.idea)} <span class="pill ${i.priority==='High'?'over':i.priority==='Medium'?'pending':'info'}" style="margin-left:6px">${esc(i.priority)}</span></div>
+        <div style="font-size:13px;color:var(--ink-soft)">For ${esc(i.person)}${i.estPrice?' · ~'+money(i.estPrice):''}${i.link?' · '+esc(i.link):''}</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" data-edit-idea="${i.id}">Edit</button>
+      <button class="btn btn-danger btn-sm" data-del-idea="${i.id}">✕</button>
+    </div>`).join(''):'<div class="empty">No ideas yet — brainstorm away!</div>';
+}
+document.addEventListener('change',e=>{
+  const cl=e.target.closest('[data-claim]'); if(cl){ const i=S.ideas.find(x=>x.id===cl.dataset.claim); if(i){ i.claimed=cl.checked; save(); render(); } }
+});
+document.addEventListener('click',e=>{
+  const ei=e.target.closest('[data-edit-idea]'); if(ei){ openIdeaModal(S.ideas.find(x=>x.id===ei.dataset.editIdea)); return; }
+  const di=e.target.closest('[data-del-idea]'); if(di){ if(confirm('Delete this idea?')){ S.ideas=S.ideas.filter(x=>x.id!==di.dataset.delIdea); save(); render(); toast('Deleted'); } }
+});
+
+/* ================= MODALS ================= */
+const mBack=$('#modalBack'); let mSaveFn=null;
+function openModal(title,sub,fieldsHTML,onSave){
+  $('#mTitle').textContent=title; $('#mSub').textContent=sub||'';
+  $('#mFields').innerHTML=fieldsHTML; mSaveFn=onSave; mBack.classList.add('open');
+  const f=$('#mFields input, #mFields select'); if(f) f.focus();
+}
+function closeModal(){ mBack.classList.remove('open'); mSaveFn=null; }
+$('#mCancel').addEventListener('click',closeModal);
+mBack.addEventListener('click',e=>{ if(e.target===mBack) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+$('#mSave').addEventListener('click',()=>{ if(mSaveFn) mSaveFn(); });
+const F=(id,label,inner)=>`<div class="field"><label>${label}</label>${inner.replace('ID',`id="${id}"`)}</div>`;
+const T=(v='',ph='')=>`<input ID value="${esc(v)}" placeholder="${esc(ph)}">`;
+const N=(v='',ph='')=>`<input ID type="number" min="0" step="0.01" value="${v==null?'':v}" placeholder="${esc(ph)}">`;
+const D=(v='')=>`<input ID type="date" value="${esc(v||'')}">`;
+const SEL=(opts,v='')=>`<select ID>${opts.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select>`;
+const TA=(v='')=>`<textarea ID rows="2">${esc(v)}</textarea>`;
+const gval=id=>{ const el=document.getElementById(id); return el?el.value.trim():''; };
+
+function openPersonModal(p){
+  const isNew=!p; p=p||{name:'',group:'Family',budget:'',giftIdea:'',purchased:false,actualCost:''};
+  openModal(isNew?'Add person':'Edit person','Set their gift budget and track the purchase.',
+    F('f_name','Name',T(p.name,'e.g. Mom'))+
+    '<div class="row2">'+F('f_group','Group',SEL(GROUPS,p.group))+F('f_budget','Gift budget ($)',N(p.budget,'50'))+'</div>'+
+    F('f_idea','Gift idea',T(p.giftIdea,'e.g. Cashmere scarf'))+
+    '<div class="row2">'+F('f_purch','Status',`<select id="f_purch"><option value="0" ${!p.purchased?'selected':''}>Still to buy</option><option value="1" ${p.purchased?'selected':''}>Purchased</option></select>`)+F('f_cost','Actual cost ($)',N(p.actualCost,'0'))+'</div>',
+    ()=>{
+      const name=gval('f_name'); if(!name){ toast('Please enter a name'); return; }
+      const data={name,group:gval('f_group'),budget:+gval('f_budget')||0,giftIdea:gval('f_idea'),
+        purchased:gval('f_purch')==='1',actualCost:+gval('f_cost')||0};
+      if(isNew){ S.people.push({id:uid(),...data}); } else { Object.assign(p,data); }
+      save(); closeModal(); render(); toast(isNew?'Person added':'Saved');
+    });
+}
+function openExpenseModal(x){
+  const isNew=!x; x=x||{desc:'',category:'Decorations',amount:'',date:''};
+  openModal(isNew?'Add expense':'Edit expense','Log any non-gift holiday spending.',
+    F('e_desc','Description',T(x.desc,'e.g. Christmas tree'))+
+    '<div class="row2">'+F('e_cat','Category',SEL(CATS.filter(c=>c!=='Gifts'),x.category))+F('e_amt','Amount ($)',N(x.amount,''))+'</div>'+
+    F('e_date','Date',D(x.date)),
+    ()=>{
+      const desc=gval('e_desc'); if(!desc){ toast('Please enter a description'); return; }
+      const data={desc,category:gval('e_cat'),amount:+gval('e_amt')||0,date:gval('e_date')};
+      if(isNew){ S.expenses.push({id:uid(),...data}); } else { Object.assign(x,data); }
+      save(); closeModal(); render(); toast(isNew?'Expense added':'Saved');
+    });
+}
+function openIdeaModal(i){
+  const isNew=!i; i=i||{person:'',idea:'',link:'',estPrice:'',priority:'Medium'};
+  openModal(isNew?'Add gift idea':'Edit gift idea','Capture it now — decide later.',
+    '<div class="row2">'+F('i_person','For whom',T(i.person,'e.g. Dad'))+F('i_pri','Priority',SEL(['High','Medium','Low'],i.priority))+'</div>'+
+    F('i_idea','Gift idea',T(i.idea,'e.g. Grilling tool set'))+
+    '<div class="row2">'+F('i_price','Est. price ($)',N(i.estPrice,''))+F('i_link','Link / note',T(i.link,''))+'</div>',
+    ()=>{
+      const idea=gval('i_idea'); if(!idea){ toast('Please enter the idea'); return; }
+      const data={person:gval('i_person')||'Anyone',idea,link:gval('i_link'),estPrice:+gval('i_price')||0,priority:gval('i_pri')};
+      if(isNew){ S.ideas.push({id:uid(),claimed:false,...data}); } else { Object.assign(i,data); }
+      save(); closeModal(); render(); toast(isNew?'Idea saved':'Saved');
+    });
+}
+$('#addPerson').addEventListener('click',()=>openPersonModal(null));
+$('#addExpense').addEventListener('click',()=>openExpenseModal(null));
+$('#addIdea').addEventListener('click',()=>openIdeaModal(null));
+$('#addSaving').addEventListener('click',()=>{
+  openModal('Add contribution','Every dollar gets you closer.',
+    '<div class="row2">'+F('c_amt','Amount ($)',N('','150'))+F('c_date','Date',D(new Date().toISOString().slice(0,10)))+'</div>'+
+    F('c_note','Note',T('','e.g. November — auto transfer')),
+    ()=>{ const amt=+gval('c_amt')||0; if(amt<=0){ toast('Enter an amount'); return; }
+      S.savings.contributions.push({id:uid(),amount:amt,date:gval('c_date'),note:gval('c_note')});
+      S.savings.saved+=amt; save(); closeModal(); render(); toast('Contribution added 🎉'); });
+});
+$('#editGoal').addEventListener('click',()=>{
+  openModal('Edit savings goal','Set your Christmas target.',
+    F('g_target','Target amount ($)',N(S.savings.target,'')),
+    ()=>{ const t=+gval('g_target')||0; S.savings.target=t; save(); closeModal(); render(); toast('Goal updated'); });
+});
+$('#editCatBudgets').addEventListener('click',()=>{
+  const rows=CATS.map(c=>F('cb_'+c.replace(/[^a-z]/gi,''),c,N(S.settings.catBudgets[c]||0,''))).join('');
+  openModal('Category budgets','Plan spending per category.',rows,()=>{
+    CATS.forEach(c=>{ S.settings.catBudgets[c]=+gval('cb_'+c.replace(/[^a-z]/gi,''))||0; });
+    const gb=CATS.reduce((a,c)=>a+(+S.settings.catBudgets[c]||0),0);
+    if(gb>0) S.settings.totalBudget=gb;
+    save(); closeModal(); render(); toast('Budgets updated');
+  });
+});
+
+/* ================= TOP ACTIONS ================= */
+$('#exportBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='christmas-budget-backup.json'; a.click(); URL.revokeObjectURL(a.href); toast('Backup exported');
+});
+$('#resetDemo').addEventListener('click',()=>{
+  if(confirm('Reset all data to the sample Christmas data?')){ S=sampleData(); save(); applyPrefs(); render(); toast('Demo data restored'); }
+});
+$('#printBtn').addEventListener('click',()=>window.print());
+
+/* ================= INIT ================= */
+function render(){ renderCountdown(); renderDashboard(); renderGifts(); renderExpenses(); renderSavings(); renderCompare(); renderIdeas(); }
+(function init(){
+  // category filter options
+  $('#catFilter').innerHTML='<option value="">All categories</option>'+CATS.filter(c=>c!=='Gifts').map(c=>`<option>${esc(c)}</option>`).join('');
+  load(); applyPrefs(); render();
+  setInterval(renderCountdown,60000);
+})();
+</script>
+
+<!-- ===== LEDGERLOOPSTUDIO DEMO ENTRY LIMIT (10) ===== -->
+<script>
+(function(){
+  var DEMO_LIMIT = 10;
+  var DEMO_MSG = "Demo limit reached (10 entries). Get the full version on Etsy for unlimited entries!";
+  var demoArrays = new WeakSet();
+  var initialLens = new WeakMap();
+
+  function registerDB(){
+    try {
+      var db = (typeof DB !== 'undefined' && DB) ? DB : null;
+      if (!db || typeof db !== 'object') return;
+      Object.keys(db).forEach(function(k){
+        try {
+          var v = db[k];
+          if (Array.isArray(v) && !demoArrays.has(v)) {
+            demoArrays.add(v);
+            initialLens.set(v, v.length);
+          }
+        } catch(e){}
+      });
+    } catch(e){}
+  }
+
+  function checkLimit(arr, addCount){
+    if (!demoArrays.has(arr)) return true;
+    var initial = initialLens.get(arr) || 0;
+    var userAdded = arr.length - initial;
+    if (userAdded + addCount > DEMO_LIMIT) {
+      try {
+        if (typeof toast === 'function') toast(DEMO_MSG);
+        else alert(DEMO_MSG);
+      } catch(e){ alert(DEMO_MSG); }
+      return false;
+    }
+    return true;
+  }
+
+  var _push = Array.prototype.push;
+  Array.prototype.push = function(){
+    if (demoArrays.has(this) && !checkLimit(this, arguments.length)) return this.length;
+    return _push.apply(this, arguments);
+  };
+  var _unshift = Array.prototype.unshift;
+  Array.prototype.unshift = function(){
+    if (demoArrays.has(this) && !checkLimit(this, arguments.length)) return this.length;
+    return _unshift.apply(this, arguments);
+  };
+  var _splice = Array.prototype.splice;
+  Array.prototype.splice = function(start, deleteCount){
+    var items = Array.prototype.slice.call(arguments, 2);
+    if (demoArrays.has(this) && items.length && !checkLimit(this, items.length)) return [];
+    return _splice.apply(this, arguments);
+  };
+
+  function boot(){
+    registerDB();
+    // Re-register periodically to catch DB reassignments (reset/load)
+    setInterval(registerDB, 2500);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ setTimeout(boot, 400); });
+  } else {
+    setTimeout(boot, 400);
+  }
+})();
+</script>
+<!-- ===== /DEMO LIMIT ===== -->
+
+</body>
+</html>
